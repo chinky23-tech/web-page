@@ -2,36 +2,37 @@ const numInput = document.getElementById('numInput');
 const checkBtn = document.getElementById('checkBtn');
 const result = document.getElementById('result');
 
-// Generate secret number ONCE
-let secret = Math.floor(Math.random() * 100) + 1;
+let secret = Math.floor(Math.random() * 100 ) +1;
 
-// Attempts allowed
 let attemptsLeft = 5;
 
-function guessNum() {
-  let guess = parseInt(numInput.value); // user input
-  let resultText = '';
 
-  if (isNaN(guess)) {
-    resultText = '⚠️ Please enter a valid number!';
-  } else if (guess === secret) {
-    resultText = `🎉 Correct! The number was ${secret}`;
-    checkBtn.disabled = true; // stop the game
-  } else {
-    attemptsLeft--; // reduce attempt
-    if (attemptsLeft > 0) {
-      if (guess > secret) {
-        resultText = `📉 Too high! Attempts left: ${attemptsLeft}`;
-      } else {
-        resultText = `📈 Too low! Attempts left: ${attemptsLeft}`;
-      }
-    } else {
-      resultText = `💀 Game Over! The number was ${secret}`;
-      checkBtn.disabled = true; // stop the game
+function guessNum(){
+
+let guess = parseInt(numInput.value);
+
+let resultText = '';
+
+if(isNaN(guess)){
+    resultText = 'please enter valid number';
+}else if( guess == secret){
+
+    resultText = 'bingo you nailed it';
+     checkBtn.disabled = true;
+}else {
+   attemptsLeft--;
+}if(attemptsLeft > 0){
+    if(guess > secret){
+        resultText = `too high attempts left: ${attemptsLeft}`;
+    }else{
+        resultText = `too low attempts left: ${attemptsLeft}`;
     }
-  }
-
-  result.textContent = resultText;
+    }else{
+        resultText = 'game over';
+        checkBtn.disabled = true;
+    }
 }
 
-checkBtn.addEventListener('click', guessNum);
+
+
+

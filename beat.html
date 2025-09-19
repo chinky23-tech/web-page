@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Beat Button</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+
+  <!-- Container -->
+  <div class="grid grid-cols-2 gap-6">
+    <!-- Buttons -->
+    <button data-sound="kick" class="drum-btn w-32 h-32 bg-blue-600 text-white font-bold text-xl rounded-xl shadow-lg active:scale-95">A<br>Kick</button>
+    <button data-sound="snare" class="drum-btn w-32 h-32 bg-red-600 text-white font-bold text-xl rounded-xl shadow-lg active:scale-95">S<br>Snare</button>
+    <button data-sound="clap" class="drum-btn w-32 h-32 bg-green-600 text-white font-bold text-xl rounded-xl shadow-lg active:scale-95">D<br>Clap</button>
+    <button data-sound="hihat" class="drum-btn w-32 h-32 bg-yellow-600 text-white font-bold text-xl rounded-xl shadow-lg active:scale-95">F<br>Hi-hat</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
