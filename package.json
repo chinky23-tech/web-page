@@ -1,0 +1,21 @@
+{
+  "name": "web-page",
+  "version": "1.0.0",
+  "description": "",
+  "main": "beat.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chinky23-tech/web-page.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chinky23-tech/web-page/issues"
+  },
+  "homepage": "https://github.com/chinky23-tech/web-page#readme"
+}
