@@ -15,13 +15,13 @@ const playlist = [
   {
     title: "Night Vibes",
     artist: "LoFi Beats",
-    src: "song/DHOL TODA.wav",
+    src: "song/Theevs - Selfish(1).mp3",
     cover:"img/Music.jpg"
   },
   {
     title: "Dreamscape",
     artist: "Chillhop",
-    src: "song/promo vocals.wav",
+    src: "song/Trippystan (2).mp3",
     cover: "img/Music.jpg"
   },
   {
