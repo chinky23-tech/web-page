@@ -4,44 +4,48 @@ const playPauseBtn = document.getElementById('playPauseBtn');
 const stopBtn = document.getElementById('stopBtn');
 const audioPlayer = document.getElementById('audioPlayer');
 
-let audio = new Audio();
 let isPlaying = false;
 
-function updateUI(){
+// when user selects a file
+function fileSelected() {
+    let songfile = fileInput.files[0]; // ✅ fixed
 
-    let songfile = fileInput.file[0];
-    if(songfile){
+    if (songfile) {
         songName.textContent = songfile.name;
-        audio.src = URL.createObjectURL(songfile);
-    }else{
-        songName.textContent = 'no file selected';
+        audioPlayer.src = URL.createObjectURL(songfile); // ✅ only one line needed
+        audioPlayer.load(); // optional but ensures reload
+    } else {
+        songName.textContent = 'No file selected';
+        audioPlayer.src = '';
     }
 }
-fileInput.addEventListener('change', updateUI);
+fileInput.addEventListener('change', fileSelected);
 
-function playPauseAudio(){
-
-    let audio  = new Audio ();
-
+// play / pause button
+function togglePlayPause() {
+  if (isPlaying) {
+    audioPlayer.pause();
+    playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
     isPlaying = false;
-
-    let Audio = audio.playPauseBtn;
-
-    if(!isPlaying){
-        audio.play();
-        isPlaying = true;
-        playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-    }else{
-        audio.pause();
-        isPlaying = false;
-        playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-    }
+  } else {
+    audioPlayer.play();
+    playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+    isPlaying = true;
+  }
 }
-playPauseBtn.addEventListener('click', playPauseAudio);
+playPauseBtn.addEventListener('click', togglePlayPause);
 
-function stopAudio(){
-audio.stop();
-isPlaying = false;
-stopBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
+// stop button
+function stopAudio() {
+  audioPlayer.pause();
+  audioPlayer.currentTime = 0;
+  playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+  isPlaying = false;
 }
 stopBtn.addEventListener('click', stopAudio);
+
+// reset button when song ends
+audioPlayer.addEventListener('ended', () => {
+  playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+  isPlaying = false;
+});
