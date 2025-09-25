@@ -1,33 +1,182 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
-    <link rel="stylesheet" href="./src/output.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visualizer Music Player</title>
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-700">
-    <div class="flex h-screen bg-white text-white">
-        <!--sidebar / library-->
-        <div class="w-1/4 bg-gray-800 p-4 overflow-y-auto">
-            <h2 class="text-xl font-bold mb-4">library</h2>
-            <ul id="library" class="space-y-2"></ul>
-        </div>
+<body class="bg-gray-900 flex flex-col items-center min-h-screen">
 
-        <!--main player-->
-        <div class="flex-1  flex flex-col items-center justify-center relative ">
-            <video id="videoPlayer" class="w-3/4 rounded-xl shadow-lg  bg-amber-200  mb-4" controls></video>
-            
+<!-- Upload Songs -->
+<div class="mt-8">
+  <label class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer">
+    Upload Songs
+    <input type="file" id="fileInput" accept="audio/*" multiple class="hidden">
+  </label>
+</div>
 
-        </div>
-        <!-- File Upload -->
-    <div class="absolute  p-4  bottom-9">
-      <label class="cursor-pointer bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500">
-        Upload File
-        <input type="file" id="fileInput" class="hidden" multiple>
-      </label>
+<!-- Music Player Card -->
+<div class="flex justify-center items-center m-8">
+  <div class="bg-gray-800 rounded-2xl p-6 shadow-2xl w-80 text-center">
+    <!-- Album Art -->
+    <div class="mb-4">
+      <img id="albumArt" src="https://via.placeholder.com/240" alt="Album Art" class="w-60 h-60 m-3.5 rounded-full shadow-lg">
     </div>
-    </div> 
-   
+
+    <!-- Visualizer -->
+    <div class="mb-4">
+      <canvas id="visualizer" class="w-full h-20 bg-gray-900 rounded-lg"></canvas>
+    </div>
+
+    <!-- Song Info -->
+    <div class="mb-2">
+      <h2 id="songTitle" class="text-xl font-semibold text-white">Song Title</h2>
+      <p id="songArtist" class="text-gray-400">Artist Name</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="my-4">
+      <input id="progressBar" type="range" value="0" min="0" max="100" class="w-full accent-blue-500 cursor-pointer">
+    </div>
+
+    <!-- Player Controls -->
+    <div class="flex justify-center items-center space-x-6 mt-4">
+      <button id="prevBtn" class="text-2xl text-white hover:text-blue-400">
+        <i class="fa-solid fa-backward"></i>
+      </button>
+      <button id="playPauseBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full">
+        <i class="fa-solid fa-play"></i>
+      </button>
+      <button id="nextBtn" class="text-2xl text-white hover:text-blue-400">
+        <i class="fa-solid fa-forward"></i>
+      </button>
+    </div>
+
+    <!-- Volume Control -->
+    <div class="mt-6 flex items-center space-x-3 border-2 border-white rounded-full p-2">
+      <span id="muteIcon" class="mr-2 text-white cursor-pointer"><i class="fa-solid fa-volume-high"></i></span>
+      <input id="volume" type="range" min="0" max="1" step="0.1" value="1" class="w-full accent-blue-500 cursor-pointer">
+    </div>
+  </div>
+</div>
+
+<script>
+  // Elements
+  const fileInput = document.getElementById('fileInput');
+  const songTitle = document.getElementById('songTitle');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const volumeSlider = document.getElementById('volume');
+  const progressBar = document.getElementById('progressBar');
+  const albumArt = document.getElementById('albumArt');
+  const muteIcon = document.getElementById('muteIcon');
+  const visualizer = document.getElementById('visualizer');
+
+  // Audio setup
+  let audio = new Audio();
+  let playlist = [];
+  let currentIndex = 0;
+  let isPlaying = false;
+  let isMuted = false;
+
+  // Load uploaded files
+  fileInput.addEventListener('change', (e) => {
+      playlist = Array.from(e.target.files);
+      if (playlist.length > 0) {
+          currentIndex = 0;
+          loadSong(currentIndex);
+      }
+  });
+
+  function loadSong(index) {
+      const file = playlist[index];
+      audio.src = URL.createObjectURL(file);
+      songTitle.textContent = file.name;
+      audio.load();
+      playSong();
+  }
+
+  function playSong() {
+      audio.play();
+      isPlaying = true;
+      playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+  }
+
+  function pauseSong() {
+      audio.pause();
+      isPlaying = false;
+      playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+  }
+
+  playPauseBtn.addEventListener('click', () => {
+      if (isPlaying) pauseSong();
+      else playSong();
+  });
+
+  // Next / Prev
+  nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % playlist.length;
+      loadSong(currentIndex);
+  });
+
+  prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+      loadSong(currentIndex);
+  });
+
+  // Volume & Mute
+  volumeSlider.addEventListener('input', () => {
+      audio.volume = volumeSlider.value;
+  });
+
+  muteIcon.addEventListener('click', () => {
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+      muteIcon.innerHTML = isMuted 
+          ? '<i class="fa-solid fa-volume-xmark"></i>' 
+          : '<i class="fa-solid fa-volume-high"></i>';
+  });
+
+  // Progress bar
+  audio.addEventListener('timeupdate', () => {
+      progressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+  });
+
+  progressBar.addEventListener('input', () => {
+      audio.currentTime = (progressBar.value / 100) * audio.duration;
+  });
+
+  // Visualizer
+  const ctx = visualizer.getContext('2d');
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const analyser = audioCtx.createAnalyser();
+  const source = audioCtx.createMediaElementSource(audio);
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
+  analyser.fftSize = 256;
+
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+
+  function drawVisualizer() {
+      requestAnimationFrame(drawVisualizer);
+      analyser.getByteFrequencyData(dataArray);
+      ctx.clearRect(0, 0, visualizer.width, visualizer.height);
+      const barWidth = (visualizer.width / bufferLength) * 2.5;
+      let x = 0;
+      for (let i = 0; i < bufferLength; i++) {
+          const barHeight = dataArray[i] / 2;
+          ctx.fillStyle = `rgb(${barHeight + 100},50,200)`;
+          ctx.fillRect(x, visualizer.height - barHeight, barWidth, barHeight);
+          x += barWidth + 1;
+      }
+  }
+
+  drawVisualizer();
+</script>
+
+</body>
+</html>
