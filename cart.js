@@ -1,13 +1,7 @@
-const fruits = ['apple' , 'grapes' , 'mango' , 'orange'];
-
-
-//select the output div
-
-const outputDiv = document.getElementById('output');
-
-//use forEach to loop through items
-fruits.forEach(function(fruit, index){
-	const ol = document.createElement('ol');
-	ol.textContent = `${index + 1}. ${fruit}`;
-	outputDiv.appendChild(ol);
-});
+const people = [
+  { name: "Rahul", age: 25 },
+  { name: "Aman", age: 30 },
+  { name: "Sneha", age: 28 }
+];
+const increased = people.map(p =>  p.age+10);
+console.log(increased);

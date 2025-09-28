@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I Love You Loop ❤️</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>forEach Example</h1>
-    <div id="output"></div>
-<script src="cart.js"></script>
+<body class="bg-pink-100 flex items-center justify-center h-screen">
+
+  <div class="bg-white shadow-2xl rounded-2xl p-8 text-center w-96">
+    <h1 class="text-2xl font-bold text-pink-600 mb-4">For Loop Love ❤️</h1>
+    
+    <button 
+      onclick="showLove()" 
+      class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-200">
+      Say "I Love You"
+    </button>
+
+    <div id="output" class="mt-6 space-y-2 text-lg text-pink-700 font-medium"></div>
+  </div>
+
+  <script>
+    function showLove() {
+      let outputDiv = document.getElementById("output");
+      outputDiv.innerHTML = ""; // clear previous text
+
+      for (let i = 1; i <= 10; i++) {
+        let line = document.createElement("p");
+        line.textContent = `I love you ❤️ (${i})`;
+        outputDiv.appendChild(line);
+      }
+    }
+  </script>
+
 </body>
 </html>
 
