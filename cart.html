@@ -3,36 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>I Love You Loop ❤️</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Shopping Cart</title>
+  <link rel="stylesheet" href="./src/output.css">
 </head>
-<body class="bg-pink-100 flex items-center justify-center h-screen">
+<body>
+  <body class="bg-gray-100 p-6">
 
-  <div class="bg-white shadow-2xl rounded-2xl p-8 text-center w-96">
-    <h1 class="text-2xl font-bold text-pink-600 mb-4">For Loop Love ❤️</h1>
-    
-    <button 
-      onclick="showLove()" 
-      class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-200">
-      Say "I Love You"
-    </button>
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-2xl font-bold text-center text-indigo-600 mb-6">🛒 Shopping Cart</h1>
 
-    <div id="output" class="mt-6 space-y-2 text-lg text-pink-700 font-medium"></div>
+    <!-- Products -->
+    <div id="products" class="grid grid-cols-2 md:grid-cols-3 gap-6"></div>
+
+    <!-- Cart -->
+    <div class="mt-10 bg-white shadow-lg rounded-xl p-6">
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Your Cart</h2>
+      <div id="cartItems" class="space-y-2"></div>
+      <div id="cartSummary" class="mt-4 font-bold text-indigo-600"></div>
+    </div>
   </div>
-
-  <script>
-    function showLove() {
-      let outputDiv = document.getElementById("output");
-      outputDiv.innerHTML = ""; // clear previous text
-
-      for (let i = 1; i <= 10; i++) {
-        let line = document.createElement("p");
-        line.textContent = `I love you ❤️ (${i})`;
-        outputDiv.appendChild(line);
-      }
-    }
-  </script>
-
 </body>
 </html>
-
